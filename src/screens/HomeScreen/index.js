@@ -41,6 +41,7 @@ export default function HomeScreen() {
   }, []);
 
   console.log(restaurants);
+  console.log(restaurants);
 
   return (
     <View style={styles.page}>

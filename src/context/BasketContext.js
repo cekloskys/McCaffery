@@ -13,6 +13,7 @@ const BasketContextProvider = ({ children }) => {
     const [basketDishes, setBasketDishes] = useState([]);
     const [finalBasketDishes, setFinalBasketDishes] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0.0);
+    const [totalQuantity,setTotalQuantity] = useState(0);
 
     const getTotalPrice = async () => {
         const total = finalBasketDishes.reduce(
@@ -20,6 +21,15 @@ const BasketContextProvider = ({ children }) => {
             sum + finalBasketDishes?.quantity * finalBasketDishes?.Dish?.price, restaurant?.serviceFee);
         setTotalPrice(total);
     }
+
+    const getTotalQuantity = async () => {
+        const total = basketDishes.reduce(
+            (sum, basketDishes) => 
+            sum + basketDishes?.quantity,0);
+        setTotalQuantity(total);
+    }
+
+    
 
     useEffect(() => {
         if (!restaurant && !finalBasketDishes) {
@@ -29,6 +39,12 @@ const BasketContextProvider = ({ children }) => {
             getTotalPrice();
         }
     }, [restaurant, finalBasketDishes]);
+
+    useEffect(() => {
+        if(basketDishes) {
+            getTotalQuantity();
+        }
+    },[basketDishes])
 
     useEffect(() => {
         if (!basketDishes) {
@@ -72,7 +88,7 @@ const BasketContextProvider = ({ children }) => {
         }
     }, [basket])
 
-    const addDishToBasket = async (dish, quantity) => {
+    const addDishToBasket = async (dish, quantity, specialInstructions) => {
         
         let theBasket = basket || (await createNewBasket());
 
@@ -80,7 +96,8 @@ const BasketContextProvider = ({ children }) => {
             quantity,
             //Dish: dish,
             basketID: theBasket.id,
-            basketDishDishId: dish.id
+            basketDishDishId: dish.id,
+            specialInstructions
         }));
         setBasketDishes([...basketDishes, newDish])
     };
@@ -107,7 +124,7 @@ const BasketContextProvider = ({ children }) => {
     };
 
     return (
-        <BasketContext.Provider value={{ addDishToBasket, setRestaurant, restaurant, basket, basketDishes, finalBasketDishes, totalPrice, deleteBasket, setBasket, setBasketDishes }}>
+        <BasketContext.Provider value={{ addDishToBasket, setRestaurant, restaurant, basket, basketDishes, finalBasketDishes, totalPrice, deleteBasket, setBasket, setBasketDishes, totalQuantity }}>
             {children}
         </BasketContext.Provider>
     )

@@ -43,16 +43,17 @@ const OrderDetailsScreen = () => {
   return (
     <View style={styles.page}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => <OrderDetailsHeader order={order} />}
         data={order.dishes}
         renderItem={({ item }) => <OrderItem orderDish={item} />}
       />
       <View style={styles.separator}></View>
       <View style={styles.container}>
-      <View style={styles.row}>
-        <Text style={{ fontWeight: '600', color: 'grey' }}>Total</Text>
-        <Text style={{ marginLeft: 'auto', color: 'grey' }}>$ {order.total.toFixed(2)}</Text>
-      </View>
+        <View style={styles.row}>
+          <Text style={{ fontWeight: '600', color: 'grey' }}>Total</Text>
+          <Text style={{ marginLeft: 'auto', color: 'grey' }}>$ {order.total.toFixed(2)}</Text>
+        </View>
       </View>
     </View>
   );

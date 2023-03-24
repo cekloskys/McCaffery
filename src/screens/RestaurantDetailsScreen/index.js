@@ -22,7 +22,7 @@ const RestaurantDetailsScreen = () => {
 
   const id = route.params?.id;
 
-  const {setRestaurant: setBasketRestaurant, basket, basketDishes} = useBasketContext();
+  const {setRestaurant: setBasketRestaurant, basket, basketDishes, totalQuantity} = useBasketContext();
   
   useEffect(() => {
     
@@ -68,16 +68,21 @@ const RestaurantDetailsScreen = () => {
   const onPress = () => {
     navigation.navigate('Restaurants');
   };
+//console.log('basket dishes')
+//console.log(basketDishes);
+console.log('Total Quantity');
+console.log(totalQuantity);
 
   return (
     <View style={styles.page}>
       <SectionList
+      showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => <Header restaurant={restaurant} />}
         ListFooterComponent={() =>
           basket && (
             <Pressable onPress={() => navigation.navigate("Basket")} style={styles.button}>
               <Text style={styles.buttonText}>
-                OPEN BASKET ({basketDishes.length})
+                OPEN BASKET ({totalQuantity})
               </Text>
             </Pressable>
             )

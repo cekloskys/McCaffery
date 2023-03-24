@@ -83,19 +83,19 @@ const BasketScreen = () => {
         if (!clientSecret) {
             return;
         }
-        const { error } = await presentPaymentSheet({ clientSecret }); 
-        
+        const { error } = await presentPaymentSheet({ clientSecret });
+
         if (error) {
             Alert.alert(`${error.code}`, error.message + '.');
         } else {
             createOrder(selectedTime);
-            Alert.alert('Confirmed', 'The payment has been confirmed.');
-            navigation.navigate('Orders');
+            alert('The payment has been confirmed.');
+            navigation.navigate("Orders");
         }
     };
 
     const validateOrder = () => {
-        
+
         if (!selectedTime) {
             Alert.alert('Error', 'Please select a pick up time between ' + restaurant.startHrs + ' and ' +
                 restaurant.endHrs);
@@ -116,23 +116,23 @@ const BasketScreen = () => {
         const month = today.getMonth();
         const year = today.getFullYear();
 
-        const selected = new Date ((month + 1) + '/' + day + '/' + year + ' ' + 
+        const selected = new Date((month + 1) + '/' + day + '/' + year + ' ' +
             selectedHrs[0] + ':' + selectedMins[0] + ':00' + ' ' + selectedMins[1] + 'UTC+0000');
-        const end = new Date ((month + 1) + '/' + day + '/' + year + ' ' + 
+        const end = new Date((month + 1) + '/' + day + '/' + year + ' ' +
             endHrs[0] + ':' + endMins[0] + ':00' + ' ' + endMins[1] + 'UTC+0000');
-        const start = new Date ((month + 1) + '/' + day + '/' + year + ' ' + 
+        const start = new Date((month + 1) + '/' + day + '/' + year + ' ' +
             startHrs[0] + ':' + startMins[0] + ':00' + ' ' + startMins[1] + 'UTC+0000');
 
-        if (selected < start || selected > end){
+        if (selected < start || selected > end) {
             alert('Please select a pick up time between ' + restaurant.startHrs + ' and ' +
                 restaurant.endHrs);
             return;
-        } 
+        }
 
         openPaymentSheet();
         //createOrder(selectedTime);
     }
-    
+
     return (
         <View style={styles.page}>
             <Text style={styles.name}>{restaurant?.name}</Text>
@@ -148,7 +148,7 @@ const BasketScreen = () => {
             {!timePicker && (
                 <View>
                     <Pressable onPress={showTimePicker} style={styles.button}>
-                        <Text style={styles.buttonText}>{!selectedTime ? 'SELECT PICKUP TIME' : 
+                        <Text style={styles.buttonText}>{!selectedTime ? 'SELECT PICKUP TIME' :
                             'PICKUP TIME: ' + (time.getMonth() + 1) + '/' + time.getDate() + '/' + time.getFullYear() + ' ' + selectedTime}</Text>
                     </Pressable>
                 </View>
@@ -156,12 +156,17 @@ const BasketScreen = () => {
             <View style={styles.separator}></View>
             <Text style={{ fontSize: 18, }}>Your Items</Text>
             <FlatList
+                showsVerticalScrollIndicator={false}
                 data={finalBasketDishes}
                 renderItem={({ item }) => <BasketItem basketItem={item} />}
             />
             <View style={styles.separator}></View>
             <View style={styles.row}>
-                <Text style={{ fontWeight: '600', color: 'grey' }}>Total</Text>
+                <Text style={{ fontWeight: '600', color: 'grey' }}>Service Fee:</Text>
+                <Text style={{ marginLeft: 'auto', color: 'grey' }}>$ {restaurant.serviceFee.toFixed(2)}</Text>
+            </View>
+            <View style={styles.row}>
+                <Text style={{ fontWeight: '600', color: 'grey' }}>Total:</Text>
                 <Text style={{ marginLeft: 'auto', color: 'grey' }}>$ {totalPrice.toFixed(2)}</Text>
             </View>
             <Pressable onPress={validateOrder} style={styles.button}>

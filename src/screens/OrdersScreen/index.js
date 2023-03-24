@@ -2,7 +2,7 @@ import { View, FlatList, RefreshControl } from 'react-native';
 import OrderComponent from '../../components/Order';
 import { useOrderContext } from '../../context/OrderContext';
 import { useCallback, useState } from 'react';
-import { DataStore } from 'aws-amplify';
+import { DataStore, Predicates } from 'aws-amplify';
 import { Order, Restaurant } from '../../models';
 import { useAuthContext } from '../../context/AuthContext';
 
@@ -15,7 +15,9 @@ const OrdersScreen = () => {
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     try {
-      const orders = await DataStore.query(Order, o => o.userID.eq(dbUser.id));
+      //const orders = await DataStore.query(Order, o => o.userID.eq(dbUser.id));
+      const orders = await DataStore.query(Order, o => o.userID.eq(dbUser?.id), Predicates.ALL, {
+        sort: (s) => s.createdAt(SortDirection.ASCENDING)})
       const restaurants = await DataStore.query(Restaurant);
       setFinalOrders(
         orders.map(order => ({
@@ -32,6 +34,7 @@ const OrdersScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={finalOrders}
         renderItem={({ item }) => <OrderComponent order={item} />}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
