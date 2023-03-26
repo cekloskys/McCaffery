@@ -1,4 +1,4 @@
-import { FlatList, View } from 'react-native';
+import { FlatList, View, ActivityIndicator } from 'react-native';
 import RestaurantItem from '../../components/RestaurantItem';
 import styles from './styles';
 import { useState, useEffect } from 'react';
@@ -37,15 +37,27 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
+    const removeListener = Hub.listen('datastore', async ({ payload }) => {
+      if (payload.event === 'syncQueriesReady') {
         fetchRestaurants();
+      }
+    });
+
+    DataStore.start();
+
+    return () => removeListener();
   }, []);
 
-  console.log(restaurants);
-  console.log(restaurants);
+  if (restaurants.length === 0) {
+    return (
+      <View style={styles.page}>
+        <ActivityIndicator size="large" color="#8B0000" />
+      </View>
+    )
+  }
 
   return (
     <View style={styles.page}>
-
       <FlatList
         data={restaurants}
         renderItem={({ item }) => <RestaurantItem restaurant={item} />}

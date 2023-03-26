@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems:'center',
       justifyContent: 'center',
-      marginVertical: 25,
+      marginVertical: 10,
     },
     quantity: {
-      fontSize: 25,
+      fontSize: 20,
       marginHorizontal: 20,
     },
     button: {
@@ -39,6 +39,15 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 14,
       fontWeight: '500',
+    },
+    input: {
+      margin: 10,
+      backgroundColor: "white",
+      padding: 15,
+      //borderRadius: 5,
+      borderWidth: 1,
+      borderColor: 'lightgrey',
+      borderRadius: 5,
     },
   });
 

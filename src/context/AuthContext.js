@@ -12,7 +12,7 @@ const AuthContextProvider = ({ children }) => {
         useEffect(() => {
                 Auth.currentAuthenticatedUser({ bypassCache: true }).then(setAuthUser);
         }, []);
-        console.log(sub);
+        
         const getDbUser = () => {
                 DataStore.query(User, (user) => user.sub.eq(sub)).then((users) =>
                         setDBUser(users[0]));
@@ -22,9 +22,17 @@ const AuthContextProvider = ({ children }) => {
                 if (!sub) {
                         return;
                 }
-                getDbUser();
+                const removeListener = Hub.listen('datastore', async ({ payload }) => {
+                        if (payload.event === 'syncQueriesReady') {
+                                getDbUser();
+                        }
+                });
+
+                DataStore.start();
+
+                return () => removeListener();
         }, [sub]);
-        console.log(dbUser);
+        
         return (
                 <AuthContext.Provider value={{ authUser, dbUser, sub, setDBUser }}>
                         {children}

@@ -1,7 +1,7 @@
 import { View, FlatList, RefreshControl } from 'react-native';
 import OrderComponent from '../../components/Order';
 import { useOrderContext } from '../../context/OrderContext';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DataStore, Predicates } from 'aws-amplify';
 import { Order, Restaurant } from '../../models';
 import { useAuthContext } from '../../context/AuthContext';
@@ -11,13 +11,20 @@ const OrdersScreen = () => {
   const { finalOrders, setFinalOrders } = useOrderContext();
   const { dbUser } = useAuthContext();
   const [refreshing, setRefreshing] = useState(false);
+  const [sortedFinalOrders, setSortedFinalOrders] = useState([]);
+
+  useEffect(() => {
+    if (!finalOrders) {
+      return;
+    }
+    const sorted = finalOrders.sort((d1, d2) => new Date(d2.createdAt).getTime() - new Date(d1.createdAt).getTime());
+    setSortedFinalOrders(sorted);
+  }, [finalOrders]);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     try {
-      //const orders = await DataStore.query(Order, o => o.userID.eq(dbUser.id));
-      const orders = await DataStore.query(Order, o => o.userID.eq(dbUser?.id), Predicates.ALL, {
-        sort: (s) => s.createdAt(SortDirection.ASCENDING)})
+      const orders = await DataStore.query(Order, o => o.userID.eq(dbUser.id));
       const restaurants = await DataStore.query(Restaurant);
       setFinalOrders(
         orders.map(order => ({
@@ -25,6 +32,8 @@ const OrdersScreen = () => {
           Restaurant: restaurants.find(r => r.id == order.orderRestaurantId),
         }))
       );
+      const sorted = finalOrders.sort((d1, d2) => new Date(d2.createdAt).getTime() - new Date(d1.createdAt).getTime());
+      setSortedFinalOrders(sorted);
       setRefreshing(false);
     } catch (error) {
       console.error(error);
@@ -35,7 +44,7 @@ const OrdersScreen = () => {
     <View style={{ flex: 1 }}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={finalOrders}
+        data={sortedFinalOrders}
         renderItem={({ item }) => <OrderComponent order={item} />}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />

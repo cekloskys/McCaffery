@@ -9,6 +9,7 @@ import BasketContextProvider from './src/context/BasketContext';
 import OrderContextProvider from './src/context/OrderContext';
 import AuthContextProvider from './src/context/AuthContext';
 import { StripeProvider } from '@stripe/stripe-react-native';
+import { LogBox } from 'react-native';
 
 Amplify.configure({...awsconfig, Analytics: {disabled: true}});
 
@@ -31,5 +32,7 @@ function App() {
     </NavigationContainer>
   );
 }
+
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 export default withAuthenticator(App);

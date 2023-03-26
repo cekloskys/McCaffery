@@ -1,4 +1,4 @@
-import { Text, TextInput, Alert } from 'react-native';
+import { Text, TextInput, Alert, Pressable } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Auth, DataStore } from 'aws-amplify';
@@ -6,14 +6,13 @@ import styles from './styles';
 import { User } from '../../models';
 import { useAuthContext } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 
 const validator = require('validator');
 
 const ProfileScreen = () => {
-  const { dbUser } = useAuthContext();
+  const { dbUser, authUser } = useAuthContext();
   const [name, setName] = useState(dbUser?.name || "");
-  const [eAddress, setEAddress] = useState(dbUser?.email || "");
+  const [eAddress, setEAddress] = useState(dbUser?.email || authUser?.attributes?.email || "");
 
   const { sub, setDBUser } = useAuthContext();
 
@@ -31,8 +30,10 @@ const ProfileScreen = () => {
 
     if (dbUser) {
       await updateUser();
+      alert('Profile updated.');
     } else {
       await createUser();
+      alert('Profile saved.');
     }
     navigation.navigate('Restaurants');
   };
@@ -60,6 +61,11 @@ const ProfileScreen = () => {
     }
   }
 
+  const signOut = async () => {
+    DataStore.clear();
+    Auth.signOut()
+  };
+
   return (
     <SafeAreaView style={styles.page}>
       <Text style={styles.title}>Profile</Text>
@@ -79,7 +85,7 @@ const ProfileScreen = () => {
       <Pressable onPress={onSave} style={styles.button}>
         <Text style={styles.buttonText}>SAVE</Text>
       </Pressable>
-      <Pressable onPress={() => Auth.signOut()} style={styles.button}>
+      <Pressable onPress={signOut} style={styles.button}>
         <Text style={styles.buttonText}>SIGN OUT</Text>
       </Pressable>
     </SafeAreaView>

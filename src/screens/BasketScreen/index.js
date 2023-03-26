@@ -90,7 +90,7 @@ const BasketScreen = () => {
         } else {
             createOrder(selectedTime);
             alert('The payment has been confirmed.');
-            navigation.navigate("Orders");
+            navigation.navigate('Restaurants');
         }
     };
 
