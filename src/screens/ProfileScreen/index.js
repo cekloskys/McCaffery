@@ -1,5 +1,5 @@
 import { Text, TextInput, Alert, Pressable } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Auth, DataStore } from 'aws-amplify';
 import styles from './styles';
@@ -17,6 +17,21 @@ const ProfileScreen = () => {
   const { sub, setDBUser } = useAuthContext();
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (!dbUser.id){
+      return;
+    }
+    const sub = DataStore.observeQuery(User, (u) =>
+      u.id.eq(dbUser?.id)
+    ).subscribe(({ items }) => {
+      setDBUser(items[0]);
+    });
+
+    return () => {
+      sub.unsubscribe();
+    };
+  }, [dbUser.id]);
 
   const onSave = async () => {
     if (!name) {

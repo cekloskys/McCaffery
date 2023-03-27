@@ -50,9 +50,7 @@ export default function HomeScreen() {
 
   if (restaurants.length === 0) {
     return (
-      <View style={styles.page}>
-        <ActivityIndicator size="large" color="#8B0000" />
-      </View>
+        <ActivityIndicator size="large" color="#8B0000" style={{flex: 1}}/>
     )
   }
 
