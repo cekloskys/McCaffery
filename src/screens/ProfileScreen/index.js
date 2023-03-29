@@ -19,19 +19,19 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (!dbUser.id){
+    if (!sub){
       return;
     }
-    const sub = DataStore.observeQuery(User, (u) =>
-      u.id.eq(dbUser?.id)
+    const s = DataStore.observeQuery(User, (u) =>
+      u.sub.eq(sub)
     ).subscribe(({ items }) => {
       setDBUser(items[0]);
     });
 
     return () => {
-      sub.unsubscribe();
+      s.unsubscribe();
     };
-  }, [dbUser.id]);
+  }, [sub]);
 
   const onSave = async () => {
     if (!name) {

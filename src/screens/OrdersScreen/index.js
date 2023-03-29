@@ -14,13 +14,17 @@ const OrdersScreen = () => {
   const [sortedFinalOrders, setSortedFinalOrders] = useState([]);
 
   useEffect(() => {
-    if (!finalOrders) {
+    if (finalOrders.length === 0) {
       return;
     }
+    console.log('Final Orders Initial');
+    console.log(finalOrders);
     const sorted = finalOrders.sort((d1, d2) => new Date(d2.createdAt).getTime() - new Date(d1.createdAt).getTime());
     setSortedFinalOrders(sorted);
+    console.log('Final Orders After');
+    console.log(finalOrders);
   }, [finalOrders]);
-
+    
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     try {
