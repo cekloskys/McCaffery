@@ -17,7 +17,11 @@ const OrderContextProvider = ({ children }) => {
         const [finalOrderDishes, setFinalOrderDishes] = useState([]);
 
         useEffect(() => {
-                DataStore.query(Order, o => o.userID.eq(dbUser?.id)).then(setOrders);
+                DataStore.query(Order, o => o.userID.eq(dbUser?.id), {
+                        page: 0,
+                        limit: 10
+                }
+                ).then(setOrders);
         }, [dbUser]);
 
         useEffect(() => {
