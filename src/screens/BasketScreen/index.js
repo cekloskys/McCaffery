@@ -29,6 +29,9 @@ const BasketScreen = () => {
 
     function onTimeSelected(event, value) {
         const currentTime = value || time;
+        if(value) {
+            setTime(value);
+        }
         let tempTime = new Date(currentTime);
         let hours = tempTime.getHours();
         let minutes = tempTime.getMinutes();
