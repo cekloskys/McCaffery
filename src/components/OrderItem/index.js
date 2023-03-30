@@ -10,7 +10,7 @@ const OrderItem = ({orderDish}) => {
       <View style={styles.quantityContainer}>
         <Text>{orderDish.quantity}</Text>
       </View>
-      <Text style={{ fontWeight: '600', }}>{orderDish.Dish.name}</Text>
+      <Text style={{ fontWeight: '600', maxWidth: 250 }} numberOfLines={1}>{orderDish.Dish.name}</Text>
       <Text style={{ marginLeft: 'auto', }}>$ {orderDish.Dish.price.toFixed(2)}</Text>
     </View>
     {orderDish.specialInstructions &&
