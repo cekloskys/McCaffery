@@ -9,9 +9,11 @@ import { useAuthContext } from '../../context/AuthContext';
 const OrdersScreen = () => {
 
   const { finalOrders, setFinalOrders } = useOrderContext();
-  const { dbUser } = useAuthContext();
+  const { dbUser, setDBUser } = useAuthContext();
   const [refreshing, setRefreshing] = useState(false);
   const [sortedFinalOrders, setSortedFinalOrders] = useState([]);
+  
+
 
   useEffect(() => {
     if (finalOrders.length === 0) {
