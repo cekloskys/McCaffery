@@ -68,10 +68,7 @@ const RestaurantDetailsScreen = () => {
   const onPress = () => {
     navigation.navigate('Restaurants');
   };
-//console.log('basket dishes')
-//console.log(basketDishes);
-console.log('Total Quantity');
-console.log(totalQuantity);
+
 
   return (
     <View style={styles.page}>

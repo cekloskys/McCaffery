@@ -33,8 +33,7 @@ const OrderDetailsScreen = () => {
   const route = useRoute();
   const id = route.params?.id;
   const { restaurant } = useBasketContext();
-  //console.log('Testing Order');
-  //console.log(order.Restaurant[0].serviceFee);
+ 
 
   useEffect(() => {
     getOrder(id).then(setOrder);
