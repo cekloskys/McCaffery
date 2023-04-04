@@ -7,8 +7,7 @@ const Order = ({order}) => {
   
 
   const navigation = useNavigation();
-  console.log('Order');
-  console.log(order);
+  
 
   const onPress = () => {
     navigation.navigate('Order', {id: order.id})

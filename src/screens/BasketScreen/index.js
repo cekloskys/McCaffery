@@ -29,7 +29,7 @@ const BasketScreen = () => {
 
     function onTimeSelected(event, value) {
         const currentTime = value || time;
-        if (value){
+        if(value) {
             setTime(value);
         }
         let tempTime = new Date(currentTime);
@@ -60,7 +60,6 @@ const BasketScreen = () => {
 
     const fetchPaymentIntent = async () => {
         const amount = Math.floor(totalPrice * 100);
-        //console.log(amount);
         const response = await API.graphql(
             graphqlOperation(createPaymentIntent, { amount }),
         );
@@ -75,11 +74,9 @@ const BasketScreen = () => {
             merchantDisplayName: 'McCaffery To Go',
             paymentIntentClientSecret: clientSecret,
         });
-        console.log('success');
+        
         console.log(error);
-        /* if (error) {
-            alert(error);
-        } */
+
     };
 
     const openPaymentSheet = async () => {

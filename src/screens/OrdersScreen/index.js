@@ -9,19 +9,21 @@ import { useAuthContext } from '../../context/AuthContext';
 const OrdersScreen = () => {
 
   const { finalOrders, setFinalOrders } = useOrderContext();
-  
-  const { dbUser } = useAuthContext();
+  const { dbUser, setDBUser } = useAuthContext();
   const [refreshing, setRefreshing] = useState(false);
   const [ sortedFinalOrders, setSortedFinalOrders ] = useState([]);
 
+  const { setOrders } = useOrderContext();
+
+
   useEffect(() => {
-    if (!finalOrders) {
+    if (finalOrders.length === 0) {
       return;
     }
     const sorted = finalOrders.sort((d1, d2) => new Date(d2.createdAt).getTime() - new Date(d1.createdAt).getTime());
     setSortedFinalOrders(sorted);
   }, [finalOrders]);
-
+    
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     try {

@@ -5,7 +5,6 @@ import styles from './styles';
 import OrderItem from '../../components/OrderItem';
 import { useEffect, useState } from 'react';
 import { useOrderContext } from '../../context/OrderContext';
-import { useBasketContext } from '../../context/BasketContext';
 
 const OrderDetailsHeader = ({ order }) => {
 
@@ -29,10 +28,9 @@ const OrderDetailsScreen = () => {
   const [order, setOrder] = useState();
   const [ orderDishItems, setOrderDishItems ] = useState()
   const { getOrder } = useOrderContext();
-  const { restaurant } = useBasketContext();
   const route = useRoute();
   const id = route.params?.id;
-
+ 
   useEffect(() => {
     getOrder(id).then(setOrder);
   }, [])

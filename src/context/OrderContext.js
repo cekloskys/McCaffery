@@ -20,6 +20,7 @@ const OrderContextProvider = ({ children }) => {
                 DataStore.query(Order, o => o.userID.eq(dbUser?.id)).then(setOrders);
         }, [dbUser]);
 
+
         useEffect(() => {
                 const fetchRestaurants = async () => {
                         const restaurants = await DataStore.query(Restaurant);
