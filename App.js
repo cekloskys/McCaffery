@@ -10,6 +10,7 @@ import OrderContextProvider from './src/context/OrderContext';
 import AuthContextProvider from './src/context/AuthContext';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { LogBox } from 'react-native';
+import { Provider } from 'react-native-paper';
 
 Amplify.configure({...awsconfig, Analytics: {disabled: true}});
 
@@ -18,6 +19,7 @@ const STRIPE_KEY =
 
 function App() {
   return (
+    <Provider>
     <NavigationContainer>
       <AuthContextProvider>
         <BasketContextProvider>
@@ -30,9 +32,34 @@ function App() {
       </AuthContextProvider>
       <StatusBar style="auto" />
     </NavigationContainer>
+    </Provider>
   );
 }
 
+
+const signUpConfig = {
+  header: "Sign up for McCafferyToGo",
+  hideAllDefaults: true,
+  signUpFields: [
+    {
+      label: "Username",
+      key: "preferred_username",
+      required: true,
+      displayOrder: 1,
+      type: "string",
+      placeholder: "Enter username (must be a valid email)",
+    },
+    {
+      label: "Password",
+      key: "password",
+      required: true,
+      displayOrder: 2,
+      type: "password",
+      placeholder: "Enter password",
+    },
+  ],
+};
+
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 
-export default withAuthenticator(App);
+export default withAuthenticator(App, { signUpConfig });

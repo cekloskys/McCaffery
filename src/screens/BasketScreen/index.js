@@ -143,6 +143,8 @@ const BasketScreen = () => {
                     display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                     is24Hour={false}
                     onChange={onTimeSelected}
+                    minuteInterval={5}
+                    
                 />
             )}
             {!timePicker && (
