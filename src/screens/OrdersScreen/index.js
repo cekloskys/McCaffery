@@ -11,7 +11,7 @@ const OrdersScreen = () => {
   const { finalOrders, setFinalOrders } = useOrderContext();
   const { dbUser, setDBUser } = useAuthContext();
   const [refreshing, setRefreshing] = useState(false);
-  const [sortedFinalOrders, setSortedFinalOrders] = useState([]);
+  const [ sortedFinalOrders, setSortedFinalOrders ] = useState([]);
 
   const { setOrders } = useOrderContext();
 

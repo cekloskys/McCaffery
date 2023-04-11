@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 15,
+        marginVertical: 5,
     },
     dropdownBtnStyle: {
         width: '100%',

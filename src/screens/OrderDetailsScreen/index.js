@@ -5,8 +5,6 @@ import styles from './styles';
 import OrderItem from '../../components/OrderItem';
 import { useEffect, useState } from 'react';
 import { useOrderContext } from '../../context/OrderContext';
-import { useBasketContext } from '../../context/BasketContext';
-
 
 const OrderDetailsHeader = ({ order }) => {
 
@@ -28,16 +26,15 @@ const OrderDetailsHeader = ({ order }) => {
 
 const OrderDetailsScreen = () => {
   const [order, setOrder] = useState();
-  const [orderDishItems, setOrderDishItems] = useState()
+  const [ orderDishItems, setOrderDishItems ] = useState()
   const { getOrder } = useOrderContext();
   const route = useRoute();
   const id = route.params?.id;
-  const { restaurant } = useBasketContext();
  
-
   useEffect(() => {
     getOrder(id).then(setOrder);
   }, [])
+  console.log(order);
 
   if (!order) {
     return <ActivityIndicator size={"large"} collor="grey" />
@@ -55,7 +52,7 @@ const OrderDetailsScreen = () => {
       <View style={styles.container}>
         <View style={styles.row}>
           <Text style={{ fontWeight: '600', color: 'grey' }}>Service Fee:</Text>
-          <Text style={{ marginLeft: 'auto', color: 'grey' }}>$ {order.Restaurant[0].serviceFee.toFixed(2)}</Text>
+          <Text style={{ marginLeft: 'auto', color: 'grey' }}>$ {order?.Restaurant[0].serviceFee.toFixed(2)}</Text>
         </View>
         <View style={styles.row}>
           <Text style={{ fontWeight: '600', color: 'grey' }}>Total</Text>
