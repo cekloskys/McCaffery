@@ -44,7 +44,7 @@ const RestaurantDetailsScreen = () => {
     DataStore.query(Dish, 
       (d) => d.and(d => [
           d.restaurantID.eq(id),
-          d.category.eq('Drinks')
+          d.category.eq('Beverages')
     ])).then(setDrinks);
 
     DataStore.query(Dish, 
@@ -88,7 +88,7 @@ const RestaurantDetailsScreen = () => {
           { title: 'Breakfast', data: breakfast },
           { title: 'Lunch', data: lunch },
           { title: 'Snacks', data: snacks },
-          { title: 'Drinks', data: drinks }
+          { title: 'Beverages', data: drinks }
         ]}
         renderItem={({ item }) => <MenuItem dish={item} />}
         renderSectionHeader={({ section }) => (
