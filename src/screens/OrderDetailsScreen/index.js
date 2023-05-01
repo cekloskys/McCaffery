@@ -34,8 +34,7 @@ const OrderDetailsScreen = () => {
   useEffect(() => {
     getOrder(id).then(setOrder);
   }, [])
-  console.log(order);
-
+  
   if (!order) {
     return <ActivityIndicator size={"large"} collor="grey" />
   }

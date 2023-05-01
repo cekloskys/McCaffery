@@ -130,7 +130,6 @@ const BasketScreen = () => {
         }
 
         openPaymentSheet();
-        //createOrder(selectedTime);
     }
 
     return (

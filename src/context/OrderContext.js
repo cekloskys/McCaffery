@@ -60,7 +60,7 @@ const OrderContextProvider = ({ children }) => {
                         )
                 );
 
-                //delete the basket
+                
                 await DataStore.delete(basket)
                 setBasketDishes(basketDishes.filter((delBD) => delBD.basketID !== basket.id));
                 setBasket(null);

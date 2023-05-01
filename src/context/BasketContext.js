@@ -94,7 +94,6 @@ const BasketContextProvider = ({ children }) => {
 
         const newDish = await DataStore.save(new BasketDish({
             quantity,
-            //Dish: dish,
             basketID: theBasket.id,
             basketDishDishId: dish.id,
             specialInstructions
@@ -114,11 +113,8 @@ const BasketContextProvider = ({ children }) => {
 
     const deleteBasket = async (basketId) => {
         //delete the basket
-        //const delBasketDish = await DataStore.delete(BasketDish, bd => bd.basketID.eq(basket.id));
-        //await DataStore.delete(Basket, b => b.id.eq(basket.id));
         const delBasketDish = await DataStore.delete(BasketDish, bd => bd.basketID.eq(basketId));
         await DataStore.delete(Basket, b => b.id.eq(basketId));
-        //setBasketDishes(basketDishes.filter((delBD) => delBD.id === delBasketDish.id));
         setBasketDishes([]);
         setBasket(null);
     };
